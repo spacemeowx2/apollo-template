@@ -24,6 +24,8 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - "./backend:/workspace"
+    ports:
+      - "8010:8010"
     networks: [test]
   frontend:
     build:
