@@ -1,0 +1,36 @@
+version: "3"
+
+networks:
+  test:
+    external: false
+
+volumes:
+  database:
+    driver: local
+
+services:
+  database:
+    image: mariadb:10.5.1
+    restart: always
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    networks: [test]
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./backend:/workspace"
+    networks: [test]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./frontend:/workspace"
+    ports:
+      - "8011:3000"
+    networks: [test]
